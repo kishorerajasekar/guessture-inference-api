@@ -70,12 +70,20 @@ class VideoFramesProcessor:
     # ==========================================================================================================    
 
 
-def process_video_frames():
+
+def process_all_video_frames():
     for filename in os.listdir(config.REAL_TIME_VIDEOS):
         if get_extension_from(filename) in config.ALLOWED_VIDEO_EXTENSTIONS:
 
             processor = VideoFramesProcessor(filename)
             processor.start()
+
+
+def process_single_video_frames(filename):
+    if get_extension_from(filename) in config.ALLOWED_VIDEO_EXTENSTIONS:
+        processor = VideoFramesProcessor(filename)
+        processor.start()
+
 
 if __name__ == '__main__':
     process_video_frames()
