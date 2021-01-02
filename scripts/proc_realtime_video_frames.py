@@ -81,9 +81,10 @@ def process_all_video_frames():
 
 def process_single_video_frames(filename):
     if get_extension_from(filename) in config.ALLOWED_VIDEO_EXTENSTIONS:
+        
         processor = VideoFramesProcessor(filename)
         processor.start()
 
 
 if __name__ == '__main__':
-    process_video_frames()
+    process_all_video_frames()
