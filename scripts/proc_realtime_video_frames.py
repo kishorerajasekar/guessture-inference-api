@@ -1,4 +1,4 @@
-import config, os, cv2, tqdm
+import config, os, cv2, tqdm, json
 from utils.file.name import get_extension_from
 from utils.file.manager import create_folder
 from utils.mediapipe.webcam import pose, hands
@@ -56,7 +56,7 @@ class VideoFramesProcessor:
         self.xtrain.append(points)
         
         if is_final_frame:
-            print("[DEBUG] Finally saving ... ", self.xtrain)
+            print("[DEBUG] Finally saving ... ")
             create_folder(self.output_dir+"posepoints_json")
             with open(self.output_dir+'posepoints_json/data.json', 'w') as fp:
                 json.dump(self.xtrain, fp)
