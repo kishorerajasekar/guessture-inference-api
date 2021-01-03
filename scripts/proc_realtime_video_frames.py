@@ -93,7 +93,6 @@ class VideoFramesProcessor:
         """
         define the processes to run
         """
-
         for frame_num, frame in tqdm(self.get_next_frame(), total=self.n_frames, desc=self.filename):
             
             # add / remove processes from here

@@ -3,6 +3,8 @@
 # -----------------------------------------------------------------------------------------------------------
 
 import json, config
+import pandas as import pd
+import numpy as np
 from utils.buckets.stream_predictor import ClassificationStreamPredictor
 from utils.buckets.block_queue import BQueue
 
@@ -10,24 +12,38 @@ from utils.buckets.block_queue import BQueue
 REAL_TIME_VIDEO_NAME = None # Name of folder to process inisde `output/real_time_video/`
 
 class ProcessPosePointsJSON:
-    # ==========================================================
+    # ====================================================================
     # beg: basic 
-    # ==========================================================
+    # ====================================================================
     def __init__(filepath, seq_len=90, feat_len=110):
         self.filepath = filepath
-        self.video_pose_points = json.load(open(filepath + "/posepoints_json/data.json"))
+        self.video_pose_points = pd.DataFrame(
+            json.load(
+                open(filepath + "/posepoints_json/data.json"))).values
         self.cur_row_idx = -1
         self.seq_len = seq_len
         self.feat_len = feat_len
         self.bqueue = BQueue(self.seq_len, self.feat_len)
-    # ==========================================================
+    # ====================================================================
     # end: basic
-    # ==========================================================
+    # ====================================================================
 
 
-    # ==========================================================
+    # ====================================================================
+    # beg: predict
+    # ====================================================================
+    def __predict_classes_and_conf(self, block, interva_size=40):
+        """
+        """
+        pass
+    # ====================================================================
+    # end: predict
+    # ====================================================================
+ 
+
+    # ====================================================================
     # beg: continous inference 
-    # ==========================================================
+    # ====================================================================
     # use these methods to predict continously without 
     # any request from frontend after each yielded prediction
     def get_next_frame_poseponits(self):
@@ -40,32 +56,34 @@ class ProcessPosePointsJSON:
             self.bqueue.add_row(posepoints)
             # get precicted class and confidence
             # yield results
-    # ==========================================================
+    # ====================================================================
     # end: continous inference 
-    # ==========================================================
+    # ====================================================================
 
 
-    # ==========================================================
+    # ====================================================================
     # beg: row-wise inference 
-    # ==========================================================
+    # ====================================================================
     # use these methods to predict only upon request from 
     # frontend.
     def get_seq_upto(self, last_framenum_in_seq):
         
         end_seq_idx = last_framenum_in_seq
         beg_seq_idx = last_framenum_in_seq - self.seq_len
-        # self.bqueue.add_multiple_rows(self.posepoints_json.data[sliceidxs])
-        # return queue
+        beg_seq_idx = beg_seq_idx if beg_seq_idx >= 0 else 0
+        
+        self.bqueue.add_multiple_rows(
+            self.video_pose_points[beg_seq_idx:end_seq_idx])
+        return self.bqueue.get_block()
 
     def predict(frame_num):
         """ frame num is same as index in csv"""
         block = self.get_seq_upto(frame_num)
         # pred from block
         # return preds
-    # ==========================================================
+    # ====================================================================
     # end: row-wise inference 
-    # ==========================================================
-            
+    # ====================================================================
 
 
 if __name__ == "__main__":
