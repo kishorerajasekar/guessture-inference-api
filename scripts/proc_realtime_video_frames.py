@@ -22,6 +22,11 @@ class VideoFramesProcessor:
         self.n_frames = self.cap.get(cv2.CAP_PROP_FRAME_COUNT)
         self.xtrain = []
 
+    @staticmethod
+    def __preprocess_frame(image):
+        image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+        image.flags.writeable = False
+        return image
 
     def get_next_frame(self):
         frame_num = -1
@@ -29,7 +34,7 @@ class VideoFramesProcessor:
             ret, frame = self.cap.read()
             if not ret: break
             frame_num += 1
-            yield frame_num, frame
+            yield frame_num, VideoFramesProcessor.__preprocess_frame(frame)
     # ==========================================================================================================
     # end: constructor and frames generator
     # ==========================================================================================================    
@@ -49,7 +54,7 @@ class VideoFramesProcessor:
             points.append(data_point.y)
             print("body found ..")
         if results_h.multi_hand_landmarks:
-            for key,hand_landmark in enumerate(results_h.multi_hand_landmarks):
+            for key, hand_landmark in enumerate(results_h.multi_hand_landmarks):
                 for data_point in results_h.multi_hand_landmarks[key].landmark:
                     points.append(data_point.x)
                     points.append(data_point.y)
