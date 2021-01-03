@@ -55,6 +55,8 @@ class VideoFramesProcessor:
                     points.append(data_point.y)
             print("hands found ..")
         
+        self.__results_h = results_h if results_h.multi_hand_landmarks else None
+        self.__results = results
         self.xtrain.append(points)
         
         if is_final_frame:
@@ -65,9 +67,14 @@ class VideoFramesProcessor:
 
 
     def proc_save_frames(self, frame, frame_num, is_final_frame):
-        #create_folder(self.output_dir+"frames")
-        #cv2.imwrite( ... )
-        pass
+        if frame_num == 0: create_folder(self.output_dir+"frames")
+        annotated_image = frame.copy()
+        mp_drawing.draw_landmarks(annotated_image, self.__results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+        if self.__results_h:
+            for hand_landmarks in self.__results_h.multi_hand_landmarks:
+                mp_drawing.draw_landmarks(annotated_image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+        cv2.imwrite(self.output_dir + "frames/" + f"{frame_num}".zfill(10) + ".png", annotated_image)
+
 
     def proc_db_records(self, frame, frame_num, is_final_frame):
         pass
