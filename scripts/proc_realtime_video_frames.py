@@ -5,7 +5,7 @@ from utils.mediapipe.webcam import pose, hands
 from utils.mediapipe.defaults import mp_pose, mp_hands, mp_drawing
 from tqdm import tqdm
 
-
+DEBUG = True
 
 class VideoFramesProcessor:
     # ==========================================================================================================
@@ -58,6 +58,7 @@ class VideoFramesProcessor:
         self.xtrain.append(points)
         
         if is_final_frame:
+            if DEBUG: print("[DEBUG] Finally saving ... ", self.xtrain)
             create_folder(self.output_dir+"posepoints_json")
             with open(self.output_dir+'posepoints_json/data.json', 'w') as fp:
                 json.dump(self.xtrain, fp)
