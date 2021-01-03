@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------------------------------------------------
 
 import json, config
-import pandas as import pd
+import pandas as pd
 import numpy as np
 from utils.buckets.stream_predictor import ClassificationStreamPredictor
 from utils.buckets.block_queue import BQueue
@@ -30,14 +30,14 @@ class ProcessPosePointsJSON:
 
 
     # ====================================================================
-    # beg: predict
+    # beg: pytorch predictor
     # ====================================================================
     def __predict_classes_and_conf(self, block, interva_size=40):
         """
         """
         pass
     # ====================================================================
-    # end: predict
+    # end: pytorch predictor
     # ====================================================================
  
 
