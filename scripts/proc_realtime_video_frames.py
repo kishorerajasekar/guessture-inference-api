@@ -55,7 +55,7 @@ class VideoFramesProcessor:
         
         self.xtrain.append(points)
         
-        print(frame_num. "/", self.n_frames)
+        print(frame_num, "/", self.n_frames)
         if is_final_frame:
             print("[DEBUG] Finally saving ... ", self.xtrain)
             create_folder(self.output_dir+"posepoints_json")
