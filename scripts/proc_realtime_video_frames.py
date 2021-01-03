@@ -42,8 +42,8 @@ class VideoFramesProcessor:
     # ==========================================================================================================    
     # add process functions for each individual frames here ....
     def proc_posepoints_json(self, frame, frame_num, is_final_frame):
-        results = pose.process(image)
-        results_h = hands.process(image)
+        results = pose.process(frame)
+        results_h = hands.process(frame)
 
         points = []
         for data_point in results.pose_landmarks.landmark[11:24]:
