@@ -52,13 +52,11 @@ class VideoFramesProcessor:
         for data_point in results.pose_landmarks.landmark[11:24]:
             points.append(data_point.x)
             points.append(data_point.y)
-            print("body found ..")
         if results_h.multi_hand_landmarks:
             for key, hand_landmark in enumerate(results_h.multi_hand_landmarks):
                 for data_point in results_h.multi_hand_landmarks[key].landmark:
                     points.append(data_point.x)
                     points.append(data_point.y)
-            print("hands found ..")
         
         self.__results_h = results_h if results_h.multi_hand_landmarks else None
         self.__results = results
