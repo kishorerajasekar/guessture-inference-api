@@ -87,7 +87,7 @@ class VideoFramesProcessor:
             
             # add / remove processes from here
             self.proc_posepoints_json(frame, frame_num ,self.__is_final_frame(frame_num))
-            self.proc_save_frames(frame, frame_num, ,self.__is_final_frame(frame_num))
+            self.proc_save_frames(frame, frame_num, self.__is_final_frame(frame_num))
 
 
     def __is_final_frame(self, cur_frame_num):
