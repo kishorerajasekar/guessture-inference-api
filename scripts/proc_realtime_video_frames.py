@@ -55,7 +55,6 @@ class VideoFramesProcessor:
         
         self.xtrain.append(points)
         
-        print(frame_num, "/", self.n_frames)
         if is_final_frame:
             print("[DEBUG] Finally saving ... ", self.xtrain)
             create_folder(self.output_dir+"posepoints_json")
@@ -91,7 +90,7 @@ class VideoFramesProcessor:
 
 
     def __is_final_frame(self, cur_frame_num):
-        return cur_frame_num == self.n_frames
+        return cur_frame_num == self.n_frames-2
     # ==========================================================================================================
     # beg: controller for processes    
     # ==========================================================================================================    
