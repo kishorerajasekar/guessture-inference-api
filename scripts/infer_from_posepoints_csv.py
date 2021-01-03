@@ -2,21 +2,24 @@
 # and generate class labesl as outputs based on given model...
 # -----------------------------------------------------------------------------------------------------------
 
-import pandas as pd
 import json, config
+from utils.buckets.stream_predictor import ClassificationStreamPredictor
+from utils.buckets.block_queue import BQueue
 
 
 REAL_TIME_VIDEO_NAME = None # Name of folder to process inisde `output/real_time_video/`
 
-class ProcessPosePointsCSV:
+class ProcessPosePointsJSON:
     # ==========================================================
     # beg: basic 
     # ==========================================================
-    def __init__(filepath, seq_len=90):
+    def __init__(filepath, seq_len=90, feat_len=110):
         self.filepath = filepath
-        self.df = pd.read_csv(filepath)
+        self.video_pose_points = json.load(open(filepath + "/posepoints_json/data.json"))
         self.cur_row_idx = -1
         self.seq_len = seq_len
+        self.feat_len = feat_len
+        self.bqueue = BQueue(self.seq_len, self.feat_len)
     # ==========================================================
     # end: basic
     # ==========================================================
@@ -28,12 +31,13 @@ class ProcessPosePointsCSV:
     # use these methods to predict continously without 
     # any request from frontend after each yielded prediction
     def get_next_frame_poseponits(self):
+        """ returns ndarray of size (feal_ten,) """
         self.cur_row_idx += 1
-        yield json.loads(self.df.json[self.cur_row_idx])
+        yield self.video_pose_points[self.cur_row_idx]
 
     def start_inference(self):
         for posepoints in self.get_next_frame_poseponits():
-            # load in queue
+            self.bqueue.add_row(posepoints)
             # get precicted class and confidence
             # yield results
     # ==========================================================
@@ -44,15 +48,13 @@ class ProcessPosePointsCSV:
     # ==========================================================
     # beg: row-wise inference 
     # ==========================================================
+    # use these methods to predict only upon request from 
+    # frontend.
     def get_seq_upto(self, last_framenum_in_seq):
         
         end_seq_idx = last_framenum_in_seq
         beg_seq_idx = last_framenum_in_seq - self.seq_len
-        
-        if beg_seq_idx >= 0:
-            # create queue with block
-        else:
-            # create pdded queue with block
+        # self.bqueue.add_multiple_rows(self.posepoints_json.data[sliceidxs])
         # return queue
 
     def predict(frame_num):
@@ -68,4 +70,4 @@ class ProcessPosePointsCSV:
 
 if __name__ == "__main__":
     path = CONFIG.REAL_TIME_VIDEOS_OUTPUT_DIR + REAL_TIME_VIDEO_NAME
-    processor = ProcessPosePointsCSV(path)
+    processor = ProcessPosePointsJSON(path)

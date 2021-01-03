@@ -93,8 +93,8 @@ if __name__ == "__main__":
 
     stream_data_pred_classes          = [0,0,0,0,          1,1,2,1,          2,1,1,1,         2,1,0,0,             0,1,]
     stream_data_pred_dists            = [0.1,0.1,0.7,0.4,  0.3,0.5,0.2,0.6,  0.1,0.5,0.8,0,   0.3,0.3,0.3,0.2,     0,1,]
-    # Must predict (relative scores)  :  0                 1                 2                0                    <Nothing>
-    # Must predict (most frequent)    :  0                 1                 1                0                    <Nothing>                 
+    # Must predict (relative scores)  :  0                 1                 1                0                    <Nothing>
+    # Must predict (most frequent)    :  0                 2                 2                0                    <Nothing>                 
 
     idx = -1
     for pred_class_id, dist_conf in zip(stream_data_pred_classes, stream_data_pred_dists):
