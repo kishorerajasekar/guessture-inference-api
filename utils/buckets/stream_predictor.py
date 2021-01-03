@@ -1,5 +1,5 @@
 # class for returning best realtime predictions in a given interval of frames slice.
-# Instead of predicting 1000 times, predicts samll number (1000/interval_size) of times 
+# Instead of predicting 1000 times, predicts samll number (1000/interval_size) of times.
 # -------------------------------------------------------------------------------------------------------------
 import math
 
@@ -105,8 +105,7 @@ if __name__ == "__main__":
         if idx%interval_size == 0:
             print("-------------------------------------------------------------------------------------")
             cur_data = list(zip(stream_data_pred_classes, stream_data_pred_dists))[idx-interval_size:idx]
-            disp = "[IGNORE]" if cur_data == [] else ""
-            print(f"CURRENT DATA: {cur_data} {disp}")
+            print(f"CURRENT DATA: {cur_data} {"[IGNORE]" if cur_data == [] else ""}")
             print("-------------------------------------------------------------------------------------")
             print(f"\tMost Freq Predicted @streamidx{idx}:", predictor.get_most_frequent_in_interval()[0])
             print(f"\tBest Relative Score @streamidx{idx}:", predictor.predict()[0])
