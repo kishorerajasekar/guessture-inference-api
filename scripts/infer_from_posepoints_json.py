@@ -10,6 +10,8 @@ from model.defaults import device
 
 from utils.buckets.stream_predictor import ClassificationStreamPredictor
 from utils.buckets.block_queue import BQueue
+from utils.file.name import get_extension_from
+
 
 DISTANCE_CLF_PATH = config.DISTANCE_CLASSIFIER
 TRAIN_LABELS_PATH = config.TRAIN_LABELS_FOR_IDXS
@@ -104,10 +106,11 @@ class ProcessPosePointsJSON:
 if __name__ == "__main__":
 
     for video_out_folder in os.listdir(CONFIG.REAL_TIME_VIDEOS_OUTPUT_DIR):
+        if get_extension_from(video_out_folder) in config.ALLOWED_VIDEO_EXTENSTIONS:
 
-        path = CONFIG.REAL_TIME_VIDEOS_OUTPUT_DIR + video_out_folder
-        processor = ProcessPosePointsJSON(path)
-        
-        for frame_num in range(len(processor)):
-            ret = processor.predict(10)
-            print(f"{frame_num} \t:{ret}")
+            path = CONFIG.REAL_TIME_VIDEOS_OUTPUT_DIR + video_out_folder
+            processor = ProcessPosePointsJSON(path)
+            
+            for frame_num in range(len(processor)):
+                ret = processor.predict(10)
+                print(f"{frame_num} \t:{ret}")
