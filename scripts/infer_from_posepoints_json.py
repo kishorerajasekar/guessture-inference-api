@@ -96,6 +96,7 @@ class ProcessPosePointsJSON:
     def predict(self, frame_num):
         """ frame num is same as index in csv"""
         block = self.get_seq_upto(frame_num)
+        print(f"DEBUG {block.shape}")
         dists, preds = self.__siamese_predictor(block)
         return (dists, preds)
     # ====================================================================
