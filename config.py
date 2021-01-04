@@ -1,9 +1,9 @@
 ALLOWED_VIDEO_EXTENSTIONS = ["mp4"]
 
 
-DISTANCE_CLF_PATH = "model/saved/"
-TRAIN_LABELS_PATH = "model/saved/"
-BEST_MODEL_PATH = "model/saved/"
+DISTANCE_CLF_PATH = "model/saved/dist_clffour_acc_100.bin"
+TRAIN_LABELS_PATH = "model/saved/dist_clf_trainfour_acc_100.bin"
+BEST_MODEL_PATH = "model/saved/complexfour_acc_100.pt"
 
 
 INPUT_DIR = "input/"
