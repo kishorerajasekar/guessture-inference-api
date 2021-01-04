@@ -24,10 +24,7 @@ class ProcessPosePointsJSON:
     # ====================================================================
     def __init__(self, filepath, seq_len=90, feat_len=110):
         self.filepath = filepath
-        self.video_pose_points = pd.DataFrame(
-            json.load(
-                open(filepath + "/posepoints_json/data.json"))) \
-                    .fillna(0).values
+        self.video_pose_points = self.load_json_data(filepath)
         self.cur_row_idx = -1
         self.seq_len = seq_len
         self.feat_len = feat_len
@@ -36,6 +33,12 @@ class ProcessPosePointsJSON:
         self.dist_clf = joblib.load(DISTANCE_CLF_PATH)
         self.numpy_labels_train = joblib.load(TRAIN_LABELS_PATH)
         self.model = torch.load(BEST_MODEL_PATH).to(device)
+
+    def load_json_data(self, filepath):
+        return pd.DataFrame(
+            json.load(
+                open(filepath + "/posepoints_json/data.json"))) \
+                    .fillna(0).values
 
     def __len__(self):
         return len(self.video_pose_points)
