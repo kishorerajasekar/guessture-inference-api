@@ -94,6 +94,7 @@ class ProcessPosePointsJSON:
         beg_seq_idx = last_framenum_in_seq - self.seq_len
         beg_seq_idx = beg_seq_idx if beg_seq_idx >= 0 else 0
         
+        print(f"DEBUG beg{beg_seq_idx} end{end_seq_idx}")
         self.bqueue.add_multiple_rows(
             self.video_pose_points[beg_seq_idx:end_seq_idx])
         return self.bqueue.get_block()
@@ -120,5 +121,5 @@ if __name__ == "__main__":
             
             for frame_num in range(len(processor)):
                 ret = processor.predict(10)
-                print(f"{frame_num} \t:{ret}")
+                print(f"frame{frame_num} \t:{ret}")
                 print("--------------------------------------------------------------")
