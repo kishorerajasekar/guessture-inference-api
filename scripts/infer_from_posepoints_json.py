@@ -33,6 +33,9 @@ class ProcessPosePointsJSON:
         self.dist_clf = joblib.load(DISTANCE_CLF_PATH)
         self.numpy_labels_train = joblib.load(TRAIN_LABELS_PATH)
         self.model = torch.load(BEST_MODEL_PATH).to(device)
+
+    def __len__(self):
+        return len(self.video_pose_points)
     # ====================================================================
     # end: basic
     # ====================================================================
@@ -105,6 +108,6 @@ if __name__ == "__main__":
         path = CONFIG.REAL_TIME_VIDEOS_OUTPUT_DIR + video_out_folder
         processor = ProcessPosePointsJSON(path)
         
-        for frame_num in [30]:
+        for frame_num in range(len(processor)):
             ret = processor.predict(10)
-            print(f"{frame_num} \tret")
+            print(f"{frame_num} \t:{ret}")
