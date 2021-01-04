@@ -26,9 +26,9 @@ class BQueue:
         insert new row at begining by removing row at end
         :param new_row: flat ndarray of sizee `feat_len`
         """
-        endrow_to_beg = np.roll(self._block, 1, axis=0)
-        endrow_to_beg[0] = new_row
-        return endrow_to_beg
+        shiftup = np.roll(self._block, -1, axis=0)
+        shiftup[-1] = new_row
+        return shiftup
 
     def add_multiple_rows(self, rows):
         """
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     print("================================")
     time.sleep(1)
     os.system('clear')
-    ANIM_LEN = 0 #100
+    ANIM_LEN = 0
     for i in range(ANIM_LEN):
         row_to_add = np.ones(feat_len)*i
         bq.add_row(row_to_add)

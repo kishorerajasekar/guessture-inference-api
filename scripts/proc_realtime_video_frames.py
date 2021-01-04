@@ -78,7 +78,6 @@ class VideoFramesProcessor:
                 mp_drawing.draw_landmarks(annotated_image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
         cv2.imwrite(self.output_dir + "frames/" + f"{frame_num}".zfill(10) + ".png", annotated_image)
 
-
     def proc_db_records(self, frame, frame_num, is_final_frame):
         pass
     # ==========================================================================================================
@@ -98,12 +97,12 @@ class VideoFramesProcessor:
             # add / remove processes from here
             self.proc_posepoints_json(frame, frame_num ,self.__is_final_frame(frame_num))
             self.proc_save_frames(frame, frame_num, self.__is_final_frame(frame_num))
-
+            self.proc_db_records(frame, frame_num, self.__is_final_frame(frame_num))
 
     def __is_final_frame(self, cur_frame_num):
         return cur_frame_num == self.n_frames-2
     # ==========================================================================================================
-    # beg: controller for processes    
+    # end: controller for processes    
     # ==========================================================================================================    
 
 

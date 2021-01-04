@@ -2,14 +2,19 @@
 # and generate class labesl as outputs based on given model...
 # -----------------------------------------------------------------------------------------------------------
 
-import json, config
+import json, config, joblib, torch
 import pandas as pd
 import numpy as np
+from model.siamese_lstm import SiameseNetwork, LSTM
+from model.defaults import device
+
 from utils.buckets.stream_predictor import ClassificationStreamPredictor
 from utils.buckets.block_queue import BQueue
 
+DISTANCE_CLF_PATH = config.DISTANCE_CLASSIFIER
+TRAIN_LABELS_PATH = config.TRAIN_LABELS_FOR_IDXS
+BEST_MODEL_PATH = config.BEST_MODEL
 
-REAL_TIME_VIDEO_NAME = None # Name of folder to process inisde `output/real_time_video/`
 
 class ProcessPosePointsJSON:
     # ====================================================================
@@ -24,6 +29,10 @@ class ProcessPosePointsJSON:
         self.seq_len = seq_len
         self.feat_len = feat_len
         self.bqueue = BQueue(self.seq_len, self.feat_len)
+
+        self.dist_clf = joblib.load(DISTANCE_CLF_PATH)
+        self.numpy_labels_train = joblib.load(TRAIN_LABELS_PATH)
+        self.model = torch.load(BEST_MODEL_PATH).to(device)
     # ====================================================================
     # end: basic
     # ====================================================================
@@ -32,10 +41,13 @@ class ProcessPosePointsJSON:
     # ====================================================================
     # beg: pytorch predictor
     # ====================================================================
-    def __predict_classes_and_conf(self, block, interva_size=40):
-        """
-        """
-        pass
+    def __siamese_predictor(self, block):
+        with torch.no_grad():
+            embedding = self.model.forward_once(block)
+            dists, train_idxs = self.dist_clf.kneighbors(
+                embedding.data.cpu().numpy())
+            predicted_ids = self.numpy_labels_train[train_idxs.flatten()]
+            return (dists, predicted_ids)
     # ====================================================================
     # end: pytorch predictor
     # ====================================================================
@@ -79,13 +91,19 @@ class ProcessPosePointsJSON:
     def predict(frame_num):
         """ frame num is same as index in csv"""
         block = self.get_seq_upto(frame_num)
-        # pred from block
-        # return preds
+        dists, preds = self.__siamese_predictor(block)
+        return (dists, preds)
     # ====================================================================
     # end: row-wise inference 
     # ====================================================================
 
 
 if __name__ == "__main__":
+    REAL_TIME_VIDEO_NAME = "TestVideo.mp4" # Name of folder to process inisde `output/real_time_video/`
+
     path = CONFIG.REAL_TIME_VIDEOS_OUTPUT_DIR + REAL_TIME_VIDEO_NAME
     processor = ProcessPosePointsJSON(path)
+    
+    for frame_num in [30]:
+        ret = processor.predict(10)
+        print(f"{frame_num} \tret")
