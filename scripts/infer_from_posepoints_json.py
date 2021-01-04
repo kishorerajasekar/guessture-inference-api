@@ -22,7 +22,7 @@ class ProcessPosePointsJSON:
     # ====================================================================
     # beg: basic 
     # ====================================================================
-    def __init__(filepath, seq_len=90, feat_len=110):
+    def __init__(self, filepath, seq_len=90, feat_len=110):
         self.filepath = filepath
         self.video_pose_points = pd.DataFrame(
             json.load(
