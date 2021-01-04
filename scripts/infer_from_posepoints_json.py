@@ -99,11 +99,12 @@ class ProcessPosePointsJSON:
 
 
 if __name__ == "__main__":
-    REAL_TIME_VIDEO_NAME = "TestVideo.mp4" # Name of folder to process inisde `output/real_time_video/`
 
-    path = CONFIG.REAL_TIME_VIDEOS_OUTPUT_DIR + REAL_TIME_VIDEO_NAME
-    processor = ProcessPosePointsJSON(path)
-    
-    for frame_num in [30]:
-        ret = processor.predict(10)
-        print(f"{frame_num} \tret")
+    for video_out_folder in os.listdir(CONFIG.REAL_TIME_VIDEOS_OUTPUT_DIR):
+
+        path = CONFIG.REAL_TIME_VIDEOS_OUTPUT_DIR + video_out_folder
+        processor = ProcessPosePointsJSON(path)
+        
+        for frame_num in [30]:
+            ret = processor.predict(10)
+            print(f"{frame_num} \tret")
