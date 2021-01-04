@@ -13,9 +13,9 @@ from utils.buckets.block_queue import BQueue
 from utils.file.name import get_extension_from
 
 
-DISTANCE_CLF_PATH = config.DISTANCE_CLASSIFIER
-TRAIN_LABELS_PATH = config.TRAIN_LABELS_FOR_IDXS
-BEST_MODEL_PATH = config.BEST_MODEL
+DISTANCE_CLF_PATH = config.DISTANCE_CLF_PATH
+TRAIN_LABELS_PATH = config.TRAIN_LABELS_PATH
+BEST_MODEL_PATH = config.BEST_MODEL_PATH
 
 
 class ProcessPosePointsJSON:
