@@ -50,14 +50,10 @@ class ProcessPosePointsJSON:
     def __siamese_predictor(self, block):
         block = torch.from_numpy(np.expand_dims(block, 0)).float().to(device)
         with torch.no_grad():
-            print(f"DEBUG block {block.shape}")
             embedding = self.model.forward_once(block)
-            print(f"DEBUG embd {embedding.shape}")
             dists, train_idxs = self.dist_clf.kneighbors(
                 embedding.data.cpu().numpy())
-            print(f"DEBUG idxs {train_idxs}")
             predicted_ids = self.numpy_labels_train[train_idxs.flatten()]
-            print(f"DEBUG pred_ids {predicted_ids}")
             return (dists, predicted_ids)
     # ====================================================================
     # end: pytorch predictor
