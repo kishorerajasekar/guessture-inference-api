@@ -98,6 +98,8 @@ class ProcessPosePointsJSON:
     def predict(self, frame_num):
         """ frame num is same as index in csv"""
         block = self.get_seq_upto(frame_num)
+        print("DEBUG")
+        print(block)
         dists, preds = self.__siamese_predictor(block)
         return (dists, preds)
     # ====================================================================
@@ -116,3 +118,4 @@ if __name__ == "__main__":
             for frame_num in range(len(processor)):
                 ret = processor.predict(10)
                 print(f"{frame_num} \t:{ret}")
+                print("--------------------------------------------------------------")
