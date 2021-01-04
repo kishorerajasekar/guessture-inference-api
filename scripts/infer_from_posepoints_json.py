@@ -47,6 +47,7 @@ class ProcessPosePointsJSON:
     # beg: pytorch predictor
     # ====================================================================
     def __siamese_predictor(self, block):
+        block = np.expand_dims(block, 0)
         with torch.no_grad():
             print(f"DEBUG block {block.shape}")
             embedding = self.model.forward_once(block)
