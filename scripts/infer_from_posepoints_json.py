@@ -120,4 +120,3 @@ if __name__ == "__main__":
             for frame_num in range(len(processor)):
                 ret = processor.predict(frame_num)
                 print(f"frame{frame_num} \t:{ret}")
-                print("--------------------------------------------------------------")
