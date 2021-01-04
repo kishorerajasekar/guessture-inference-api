@@ -105,7 +105,7 @@ class ProcessPosePointsJSON:
 
 if __name__ == "__main__":
 
-    for video_out_folder in os.listdir(CONFIG.REAL_TIME_VIDEOS_OUTPUT_DIR):
+    for video_out_folder in os.listdir(config.REAL_TIME_VIDEOS_OUTPUT_DIR):
         if get_extension_from(video_out_folder) in config.ALLOWED_VIDEO_EXTENSTIONS:
 
             path = CONFIG.REAL_TIME_VIDEOS_OUTPUT_DIR + video_out_folder
