@@ -93,7 +93,7 @@ class ProcessPosePointsJSON:
             self.video_pose_points[beg_seq_idx:end_seq_idx])
         return self.bqueue.get_block()
 
-    def predict(frame_num):
+    def predict(self, frame_num):
         """ frame num is same as index in csv"""
         block = self.get_seq_upto(frame_num)
         dists, preds = self.__siamese_predictor(block)
