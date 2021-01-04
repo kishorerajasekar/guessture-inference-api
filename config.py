@@ -1,4 +1,4 @@
-ALLOWED_VIDEO_EXTENSTIONS = ["mp4"]
+ALLOWED_VIDEO_EXTENSTIONS = ["mp4", "mov"]
 
 
 DISTANCE_CLF_PATH = "model/saved/dist_clffour_acc_100.bin"
