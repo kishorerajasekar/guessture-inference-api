@@ -48,6 +48,7 @@ class ProcessPosePointsJSON:
     # ====================================================================
     def __siamese_predictor(self, block):
         with torch.no_grad():
+            print(f"DEBUG block {block.shape}")
             embedding = self.model.forward_once(block)
             print(f"DEBUG embd {embedding.sahpe}")
             dists, train_idxs = self.dist_clf.kneighbors(
