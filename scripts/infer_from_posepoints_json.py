@@ -51,7 +51,7 @@ class ProcessPosePointsJSON:
         with torch.no_grad():
             print(f"DEBUG block {block.shape}")
             embedding = self.model.forward_once(block)
-            print(f"DEBUG embd {embedding.sahpe}")
+            print(f"DEBUG embd {embedding.shape}")
             dists, train_idxs = self.dist_clf.kneighbors(
                 embedding.data.cpu().numpy())
             print(f"DEBUG idxs {train_idxs}")
