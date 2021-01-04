@@ -26,7 +26,8 @@ class ProcessPosePointsJSON:
         self.filepath = filepath
         self.video_pose_points = pd.DataFrame(
             json.load(
-                open(filepath + "/posepoints_json/data.json"))).values
+                open(filepath + "/posepoints_json/data.json"))) \
+                    .fillna(0).values
         self.cur_row_idx = -1
         self.seq_len = seq_len
         self.feat_len = feat_len
