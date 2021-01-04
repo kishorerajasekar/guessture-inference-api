@@ -49,9 +49,12 @@ class ProcessPosePointsJSON:
     def __siamese_predictor(self, block):
         with torch.no_grad():
             embedding = self.model.forward_once(block)
+            print(f"DEBUG embd {embedding.sahpe}")
             dists, train_idxs = self.dist_clf.kneighbors(
                 embedding.data.cpu().numpy())
+            print(f"DEBUG idxs {train_idxs}")
             predicted_ids = self.numpy_labels_train[train_idxs.flatten()]
+            print(f"DEBUG pred_ids {predicted_ids}")
             return (dists, predicted_ids)
     # ====================================================================
     # end: pytorch predictor
@@ -96,7 +99,6 @@ class ProcessPosePointsJSON:
     def predict(self, frame_num):
         """ frame num is same as index in csv"""
         block = self.get_seq_upto(frame_num)
-        print(f"DEBUG {block.shape}")
         dists, preds = self.__siamese_predictor(block)
         return (dists, preds)
     # ====================================================================
