@@ -1,0 +1,10 @@
+numpy
+pandas
+pytorch
+opencv-contrib-python
+fastapi
+torch
+uvicorn
+aiofiles
+python-multipart
+mediapipe
