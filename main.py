@@ -71,9 +71,8 @@ def predict_from_final_frame_in_seq(frame_req: FinalFrameInSeqRequest):
     the associated frame number
     """
 
-    json_processor = get_json_processor(frame_req.file_name)
-    dist, pred = json_processor.predict(frame_req.frame_num)
-    
+    dist, pred = get_json_processor(frame_req.file_name)\
+                    .predict(frame_req.frame_num)
     return {
         "dist" : dist[0][0], 
         "pred" : pred[0]
