@@ -6,6 +6,28 @@ app = FastAPI()
 
 
 """ ========================================================================================================
+CORS
+========================================================================================================="""
+from fastapi.middleware.cors import CORSMiddleware
+origins = [
+    "https://rakesh4real.github.io",
+    "http://rakesh4real.github.io",
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "http://localhost:3002",
+    "http://localhost:3003",
+    "http://localhost:3004",]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],)
+
+
+""" ========================================================================================================
 define structure for requests (Pydantic & more)
 ========================================================================================================="""
 from fastapi import Request # for get
